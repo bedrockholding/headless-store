@@ -178,3 +178,60 @@ export const CART_LINES_REMOVE_MUTATION = /* GraphQL */ `
     }
   }
 `;
+
+export const CART_BUYER_IDENTITY_UPDATE_MUTATION = /* GraphQL */ `
+  mutation CartBuyerIdentityUpdate(
+    $cartId: ID!
+    $buyerIdentity: CartBuyerIdentityInput!
+  ) {
+    cartBuyerIdentityUpdate(cartId: $cartId, buyerIdentity: $buyerIdentity) {
+      cart {
+        id
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+export const CUSTOMER_QUERY = /* GraphQL */ `
+  query Customer($customerAccessToken: String!) {
+    customer(customerAccessToken: $customerAccessToken) {
+      id
+      firstName
+      lastName
+      email
+    }
+  }
+`;
+
+export const CUSTOMER_ACCESS_TOKEN_CREATE_MUTATION = /* GraphQL */ `
+  mutation CustomerAccessTokenCreate($input: CustomerAccessTokenCreateInput!) {
+    customerAccessTokenCreate(input: $input) {
+      customerAccessToken {
+        accessToken
+        expiresAt
+      }
+      customerUserErrors {
+        code
+        field
+        message
+      }
+    }
+  }
+`;
+
+export const CUSTOMER_ACCESS_TOKEN_DELETE_MUTATION = /* GraphQL */ `
+  mutation CustomerAccessTokenDelete($customerAccessToken: String!) {
+    customerAccessTokenDelete(customerAccessToken: $customerAccessToken) {
+      deletedAccessToken
+      deletedCustomerAccessTokenId
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;

@@ -13,7 +13,9 @@ import {
 } from "@/lib/shopify/queries";
 import type { Cart } from "@/lib/shopify/types";
 
-const CART_ID_COOKIE = "shopifyCartId";
+import { SHOPIFY_CART_ID_COOKIE } from "@/lib/shopify-cookies";
+
+const CART_ID_COOKIE = SHOPIFY_CART_ID_COOKIE;
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 30;
 
 function revalidateStorefront() {

@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { AccountNav } from "@/components/account-nav";
 import { getCartLineCount } from "@/app/actions/cart";
 
 export async function SiteHeader() {
@@ -14,7 +15,8 @@ export async function SiteHeader() {
         >
           Storefront
         </Link>
-        <nav className="flex items-center gap-4 text-sm font-medium text-zinc-700">
+        <nav className="flex flex-wrap items-center gap-3 text-sm font-medium text-zinc-700 sm:gap-4">
+          <AccountNav />
           <Link href="/rewards" className="hover:text-zinc-900">
             Rewards
           </Link>
