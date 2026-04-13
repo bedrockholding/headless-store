@@ -1,7 +1,7 @@
 import Link from "next/link";
-
 import { AccountNav } from "@/components/account-nav";
-import { getCartLineCount } from "@/app/actions/cart";
+import { getCartLineCount } from "@/app/actions/cart";  
+import { ProgressAmountClient } from "@/components/progress-amount-client";
 
 export async function SiteHeader() {
   const count = await getCartLineCount();
@@ -16,7 +16,7 @@ export async function SiteHeader() {
           Storefront
         </Link>
         <nav className="flex flex-wrap items-center gap-3 text-sm font-medium text-zinc-700 sm:gap-4">
-          <AccountNav />
+          {/* <AccountNav />
           <Link href="/rewards" className="hover:text-zinc-900">
             Rewards
           </Link>
@@ -25,7 +25,8 @@ export async function SiteHeader() {
           </Link>
           <Link href="/search" className="hover:text-zinc-900">
             Search
-          </Link>
+          </Link> */}
+          <ProgressAmountClient amount="50" /> 
           <Link
             href="/cart"
             className="relative inline-flex items-center gap-1 rounded-lg px-2 py-1 hover:bg-zinc-100 hover:text-zinc-900"
