@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
-import { EarningModal, GamesSection, useGameApi, GameHeroBanner } from "getjacked-components";
+import { ModalEarning, SectionGames, useGameApi, SectionGameHero, ProgressRewards } from "getjacked-components";
+import { ProgressRewardsClient } from "@/components/progress-rewards-client";
 
 // import { useGameApi } from "getjacked-components/hooks";
 
@@ -23,7 +24,39 @@ export default function GamesPage() {
 
   return (
     <div>
-    <GameHeroBanner
+    <section>
+      <ProgressRewards
+        highlightColor="#d22730"
+        highlightedText="$20 away "
+        message="You're"
+        milestones={[
+          {
+            claimButton: {
+              visible: false
+            },
+            icon: 'dollar',
+            id: '1',
+            label: 'Surprise Gift',
+            position: 21,
+            status: 'locked'
+          },
+          {
+            claimButton: {
+              visible: false
+            },
+            icon: 'gift',
+            id: '2',
+            label: '$160 Storefront Bundle',
+            position: 95,
+            status: 'locked'
+          }
+        ]}
+        progress={5}
+        suffixText="from a surprise gift!"
+      />;
+    </section>
+
+    <SectionGameHero
       backgroundImageSrc={heroGame?.imageSrc || ""}
       backgroundImageMobileSrc={heroGame?.imageSrc || ""}
       backgroundImageAlt={heroGame?.title || "Game Hero Banner"}
@@ -36,14 +69,14 @@ export default function GamesPage() {
       // className,
       // tags,
     />
-    <GamesSection
+    <SectionGames
       onStartGame={handleStartPlaying}
       games={gameList}
       activities={activities}
       loading={loading}
       error={error}
     />
-   {isEarningModalOpen && <EarningModal partnerName="Storefront" onSubmit={handleSetEmail} isOpen={isEarningModalOpen} onClose={() => setIsEarningModalOpen(false)} bundleAmount={160}/>} 
+   {isEarningModalOpen && <ModalEarning partnerName="Storefront" onSubmit={handleSetEmail} isOpen={isEarningModalOpen} onClose={() => setIsEarningModalOpen(false)} bundleAmount={160}/>} 
     </div>
   );
 }
