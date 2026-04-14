@@ -1,28 +1,38 @@
 "use client";
 import { useState } from "react";
-import { ModalEarning, SectionGames, useGameApi, SectionGameHero, ProgressRewards } from "getjacked-components";
-import { ProgressRewardsClient } from "@/components/progress-rewards-client";
+import {
+  ModalEarning,
+  ProgressRewards,
+  SectionGameHero,
+  SectionGames,
+  useApi,
+} from "getjacked-components";
 
 // import { useGameApi } from "getjacked-components/hooks";
 
 
-export default function GamesPage() {
+type GamesComponentProps = {
+  updatePartnerData: (data: unknown) => void;
+};
+
+export default function GamesComponent({ updatePartnerData }: GamesComponentProps) {
   const [isEarningModalOpen, setIsEarningModalOpen] = useState(false);
-  const [email, setEmail] = useState("");
-  const { games, activities, loading, error } = useGameApi('storefront', email);
+
+  const { games, activities, loading, error } = useApi("storefront", email);
+  
   
   const handleStartPlaying = () => {
     setIsEarningModalOpen(true);
   }
 
   const handleSetEmail = (email: string) => {
-    setEmail(email);
-  }
+    updatePartnerData(email);
+  };
   const heroGame = games?.[0];
   const gameList = games?.slice(1);
 
   return (
-    <div>
+<div>
     <section className="flex items-center justify-center py-8">
       <ProgressRewards
         highlightColor="#d22730"
@@ -52,14 +62,22 @@ export default function GamesPage() {
         ]}
         progress={5}
         suffixText="from a surprise gift!"
-      />;
+      />
     </section>
 
-    <SectionGameHero
-      game={heroGame}
-      // ctaLabel={'Play Game'}
-      onCtaClick={handleStartPlaying}
-    />
+    {heroGame?.imageSrc ? (
+      <SectionGameHero
+        backgroundImageSrc={heroGame.imageSrc}
+        backgroundImageMobileSrc={heroGame.imageSrc}
+        backgroundImageAlt={heroGame.title ?? "Game hero"}
+        gameImageSrc={heroGame.imageSrc}
+        gameImageAlt={heroGame.title ?? "Game hero"}
+        title={heroGame.title ?? ""}
+        description={heroGame.description ?? ""}
+        ctaLabel="Play Game"
+        onCtaClick={handleStartPlaying}
+      />
+    ) : null}
     <SectionGames
       onStartGame={handleStartPlaying}
       games={gameList}
