@@ -14,6 +14,4 @@ export default function RewardsPage() {
         <SectionTestimonials partnerCode="storefront" />
         {/* </GetJackedProvider> */}
     </div>
-    
-  )
-}
+)}
