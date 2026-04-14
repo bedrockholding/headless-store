@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { ModalEarning, SectionGames, useGameApi, SectionGameHero, ProgressRewards } from "getjacked-components";
+import { ModalEarning, SectionGames, useGameApi, SectionGameHero, ProgressRewards, useUser} from "getjacked-components";
 import { ProgressRewardsClient } from "@/components/progress-rewards-client";
 
 // import { useGameApi } from "getjacked-components/hooks";
@@ -8,22 +8,31 @@ import { ProgressRewardsClient } from "@/components/progress-rewards-client";
 
 export default function GamesPage() {
   const [isEarningModalOpen, setIsEarningModalOpen] = useState(false);
+  const [userId, setUserId] = useState("");
   const [email, setEmail] = useState("");
-  const { games, activities, loading, error } = useGameApi('storefront', email);
-  
+  const partnerCode = "jmdeleon";
+  const { user } = useUser(partnerCode,email);
+  const { games, activities, partnerSettings, loading, error } = useGameApi(partnerCode, user?.id || "");
   const handleStartPlaying = () => {
     setIsEarningModalOpen(true);
   }
 
-  const handleSetEmail = (email: string) => {
+  const handleSetEmail = (email: string) => { 
     setEmail(email);
+    console.log("user:", user);
   }
+
   const heroGame = games?.[0];
   const gameList = games?.slice(1);
 
+
+console.log("games:", games);
+ console.log("activities:", activities);
+ console.log("partnerSettings:", partnerSettings);
+
   return (
     <div>
-    <section className="flex items-center justify-center py-8">
+    <section className="flex items-center justify-center">
       <ProgressRewards
         highlightColor="#d22730"
         highlightedText="$20 away "
@@ -36,7 +45,7 @@ export default function GamesPage() {
             icon: 'dollar',
             id: '1',
             label: 'Surprise Gift',
-            position: 21,
+            position: 21, // Todo: must be dynamic based on reward Amount
             status: 'locked'
           },
           {
