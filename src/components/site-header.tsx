@@ -16,11 +16,11 @@ export async function SiteHeader() {
           Storefront
         </Link>
         <nav className="flex flex-wrap items-center gap-3 text-sm font-medium text-zinc-700 sm:gap-4">
-          {/* <AccountNav />
+           <AccountNav />
           <Link href="/rewards" className="hover:text-zinc-900">
             Rewards
           </Link>
-          <Link href="/rewards/games" className="hover:text-zinc-900">
+          {/*<Link href="/rewards/games" className="hover:text-zinc-900">
             Games
           </Link>
           <Link href="/search" className="hover:text-zinc-900">

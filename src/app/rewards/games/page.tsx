@@ -24,7 +24,7 @@ export default function GamesPage() {
 
   return (
     <div>
-    <section>
+    <section className="flex items-center justify-center py-8">
       <ProgressRewards
         highlightColor="#d22730"
         highlightedText="$20 away "
