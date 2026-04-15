@@ -11,15 +11,13 @@ export default function GamesPage() {
   const [userId, setUserId] = useState("");
   const [email, setEmail] = useState("");
   const partnerCode = "jmdeleon";
-  const { user } = useUser(partnerCode,email);
-  const { games, activities, partnerSettings, loading, error } = useGameApi(partnerCode, user?.id || "");
+  const { games, activities, partnerSettings, loading, rewardAmount, error } = useGameApi(partnerCode,email);
   const handleStartPlaying = () => {
     setIsEarningModalOpen(true);
   }
 
   const handleSetEmail = (email: string) => { 
     setEmail(email);
-    console.log("user:", user);
   }
 
   const heroGame = games?.[0];
@@ -27,8 +25,9 @@ export default function GamesPage() {
 
 
 console.log("games:", games);
- console.log("activities:", activities);
- console.log("partnerSettings:", partnerSettings);
+console.log("activities:", activities);
+console.log("partnerSettings:", partnerSettings);
+console.log("rewardAmount:", rewardAmount);
 
   return (
     <div>

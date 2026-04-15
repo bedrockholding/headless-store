@@ -26,7 +26,7 @@ export async function SiteHeader() {
           <Link href="/search" className="hover:text-zinc-900">
             Search
           </Link> */}
-          <ProgressAmountClient amount="50" /> 
+          <ProgressAmountClient /> 
           <Link
             href="/cart"
             className="relative inline-flex items-center gap-1 rounded-lg px-2 py-1 hover:bg-zinc-100 hover:text-zinc-900"

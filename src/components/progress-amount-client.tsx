@@ -1,7 +1,11 @@
 "use client";
 
-import { ProgressAmount } from "getjacked-components";
+import { ProgressAmount, useGameApi } from "getjacked-components";
 
-export function ProgressAmountClient({ amount }: { amount: string }) {
-  return <ProgressAmount amount={amount} />;
+export function ProgressAmountClient() {
+
+  const partnerCode = "jmdeleon";
+  const { rewardAmount } = useGameApi(partnerCode);
+
+  return <ProgressAmount amount={rewardAmount ? rewardAmount.toString() : "0"} />;
 }
