@@ -28,6 +28,7 @@ export default function GamesPage() {
     if (sessionUser) {
       setEmail(sessionUser.email || "");
     }
+    console.log("partnerSettings:", partnerSettings);
   }, [sessionUser])
   
   return (
@@ -68,7 +69,7 @@ export default function GamesPage() {
       game={heroGame}
       onCtaClick={handleStartPlaying}
       partnerName="Storefront"
-      bundleAmount={160}
+      bundleAmount={Number(partnerSettings?.rewardGoal?.thresholdAmount) || 0}
       email={email}
       partnerCode={partnerCode}
       onLogin={handleSetEmail}
@@ -77,7 +78,7 @@ export default function GamesPage() {
       email={email}
       partnerCode={partnerCode}
       onLogin={handleSetEmail}
-      bundleAmount={160}
+      bundleAmount={Number(partnerSettings?.rewardGoal?.thresholdAmount) || 0}
       onStartGame={handleStartPlaying}
       games={gameList}
       activities={activities}
