@@ -8,26 +8,23 @@ import { ProgressRewardsClient } from "@/components/progress-rewards-client";
 
 export default function GamesPage() {
   const [isEarningModalOpen, setIsEarningModalOpen] = useState(false);
-  const [userId, setUserId] = useState("");
+  
   const [email, setEmail] = useState("");
-  const partnerCode = "jmdeleon";
+  const partnerCode = "storefront";
   const { games, activities, partnerSettings, loading, rewardAmount, error } = useGameApi(partnerCode,email);
+  
   const handleStartPlaying = () => {
     setIsEarningModalOpen(true);
   }
 
   const handleSetEmail = (email: string) => { 
     setEmail(email);
+    setIsEarningModalOpen(false);
   }
 
   const heroGame = games?.[0];
   const gameList = games?.slice(1);
 
-
-console.log("games:", games);
-console.log("activities:", activities);
-console.log("partnerSettings:", partnerSettings);
-console.log("rewardAmount:", rewardAmount);
 
   return (
     <div>
@@ -60,22 +57,24 @@ console.log("rewardAmount:", rewardAmount);
         ]}
         progress={5}
         suffixText="from a surprise gift!"
-      />;
+      />
     </section>
 
     <SectionGameHero
       game={heroGame}
-      // ctaLabel={'Play Game'}
       onCtaClick={handleStartPlaying}
+      email={email}
+      partnerCode={partnerCode}
+      onLogin={handleSetEmail}
     />
     <SectionGames
+      email={email}
       onStartGame={handleStartPlaying}
       games={gameList}
       activities={activities}
       loading={loading}
       error={error}
     />
-   {isEarningModalOpen && <ModalEarning partnerName="Storefront" onSubmit={handleSetEmail} isOpen={isEarningModalOpen} onClose={() => setIsEarningModalOpen(false)} bundleAmount={160}/>} 
     </div>
   );
 }

@@ -36,6 +36,7 @@ export default function RootLayout({
     >
       <body className="flex min-h-full flex-col bg-zinc-50 text-zinc-900">
         <QueryProvider>
+          
           <SiteHeader />
           <main className="flex-1">{children}</main>
           <footer className="border-t border-zinc-200 bg-white py-8 text-center text-sm text-zinc-500">

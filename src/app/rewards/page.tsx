@@ -1,9 +1,16 @@
 "use client";
 
 import { SectionFaq, SectionTestimonials, SectionHero, SectionPartneredGames, SectionSteps, useGameApi } from "getjacked-components";
+import { useState } from "react";
 
 
 export default function RewardsPage() {
+  const [email, setEmail] = useState("");
+
+  const handleLogin = (email: string) => {
+    setEmail(email);
+  }
+  
   return (   
     <div>
       {/* <GetJackedProvider partnerCode="0TSRQK-1Q"> */}
