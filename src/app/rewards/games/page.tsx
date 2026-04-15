@@ -1,31 +1,35 @@
 "use client";
-import { useState } from "react";
-import { ModalEarning, SectionGames, useGameApi, SectionGameHero, ProgressRewards, useUser} from "getjacked-components";
+import { useEffect, useState } from "react";
+import { SectionGames, useGameApi, SectionGameHero, ProgressRewards, useUser} from "getjacked-components";
 import { ProgressRewardsClient } from "@/components/progress-rewards-client";
 
 // import { useGameApi } from "getjacked-components/hooks";
 
 
 export default function GamesPage() {
-  const [isEarningModalOpen, setIsEarningModalOpen] = useState(false);
   
   const [email, setEmail] = useState("");
   const partnerCode = "storefront";
-  const { games, activities, partnerSettings, loading, rewardAmount, error } = useGameApi(partnerCode,email);
+  const { games, activities, partnerSettings, loading, rewardAmount, error , sessionUser} = useGameApi(partnerCode,email);
   
   const handleStartPlaying = () => {
-    setIsEarningModalOpen(true);
+    /*add tracking*/
+    console.log("Starting to play game...");
   }
 
   const handleSetEmail = (email: string) => { 
     setEmail(email);
-    setIsEarningModalOpen(false);
   }
 
   const heroGame = games?.[0];
   const gameList = games?.slice(1);
 
-
+  useEffect(() => {
+    if (sessionUser) {
+      setEmail(sessionUser.email || "");
+    }
+  }, [sessionUser])
+  
   return (
     <div>
     <section className="flex items-center justify-center">
@@ -63,12 +67,17 @@ export default function GamesPage() {
     <SectionGameHero
       game={heroGame}
       onCtaClick={handleStartPlaying}
+      partnerName="Storefront"
+      bundleAmount={160}
       email={email}
       partnerCode={partnerCode}
       onLogin={handleSetEmail}
     />
     <SectionGames
       email={email}
+      partnerCode={partnerCode}
+      onLogin={handleSetEmail}
+      bundleAmount={160}
       onStartGame={handleStartPlaying}
       games={gameList}
       activities={activities}
