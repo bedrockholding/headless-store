@@ -11,10 +11,7 @@ export default function GamesPage() {
   const [email, setEmail] = useState("");
   const partnerCode = "storefront";
   const { games, partnerSettings, activities, loading, rewardAmount, error , sessionUser} = useGameApi(partnerCode,email);
-  const  apiData = useGameApi(partnerCode,email);
 
-
-  console.log("apiData:", apiData);
   const handleStartPlaying = () => {
     /*add tracking*/
     console.log("Starting to play game...");
@@ -34,7 +31,7 @@ export default function GamesPage() {
     console.log("partnerSettings:", partnerSettings);
     console.log("sessionUser:", sessionUser);
     console.log("activities:", activities);
-  }, [sessionUser,partnerSettings])
+  }, [sessionUser])
   
   return (
     <div>
