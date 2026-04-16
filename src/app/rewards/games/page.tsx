@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { SectionGames, useGameApi, SectionGameHero, ProgressRewards, useUser} from "getjacked-components";
-import { ProgressRewardsClient } from "@/components/progress-rewards-client";
+//import { ProgressRewardsClient } from "@/components/progress-rewards-client";
 
 // import { useGameApi } from "getjacked-components/hooks";
 
@@ -10,8 +10,11 @@ export default function GamesPage() {
   
   const [email, setEmail] = useState("");
   const partnerCode = "storefront";
-  const { games, activities, partnerSettings, loading, rewardAmount, error , sessionUser} = useGameApi(partnerCode,email);
-  
+  const { games, partnerSettings, activities, loading, rewardAmount, error , sessionUser} = useGameApi(partnerCode,email);
+  const  apiData = useGameApi(partnerCode,email);
+
+
+  console.log("apiData:", apiData);
   const handleStartPlaying = () => {
     /*add tracking*/
     console.log("Starting to play game...");
@@ -29,7 +32,9 @@ export default function GamesPage() {
       setEmail(sessionUser.email || "");
     }
     console.log("partnerSettings:", partnerSettings);
-  }, [sessionUser])
+    console.log("sessionUser:", sessionUser);
+    console.log("activities:", activities);
+  }, [sessionUser,partnerSettings])
   
   return (
     <div>
