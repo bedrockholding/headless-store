@@ -16,7 +16,7 @@ function isRewardsGamesPath(pathname: string | null) {
 /** `useGameApi` + `ProgressAmount` only run when this subtree is mounted (rewards/games). */
 function RewardsGamesProgressAmount() {
   const partnerCode = "storefront";
-  const { rewardAmount, sessionUser } = useGameApi(partnerCode, "");
+  const { rewardAmount, sessionUser, partnerSettings } = useGameApi(partnerCode, "");
 
   if (!sessionUser.email) {
     return (
@@ -30,6 +30,7 @@ function RewardsGamesProgressAmount() {
         <div className="inline-flex sm:hidden">
           <ProgressAmount
             amount={rewardAmount ? rewardAmount.toString() : "0"}
+            thresholdAmount={Number(partnerSettings?.rewardGoal?.thresholdAmount || 0)}
           />
         </div>
       </>
@@ -37,7 +38,7 @@ function RewardsGamesProgressAmount() {
   }
 
   return (
-    <ProgressAmount amount={rewardAmount ? rewardAmount.toString() : "0"} />
+    <ProgressAmount amount={rewardAmount ? rewardAmount.toString() : "0"} thresholdAmount={Number(partnerSettings?.rewardGoal?.thresholdAmount || 0)} />
   );
 }
 
