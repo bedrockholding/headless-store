@@ -18,6 +18,7 @@ export default function GamesPage() {
   }
 
   const handleSetEmail = (email: string) => { 
+    //Add tracking here and internal logic.
     setEmail(email);
   }
 
@@ -29,17 +30,26 @@ export default function GamesPage() {
       setEmail(sessionUser.email || "");
     }
     console.log("partnerSettings:", partnerSettings);
-    console.log("sessionUser:", sessionUser);
-    console.log("activities:", activities);
+
   }, [sessionUser])
   
+  console.log("sessionUser:", sessionUser);
+  console.log("activities:", activities);  
+
+  const handleDiscountClaim = () => {
+    //Add tracking here and internal logic.
+    //Add generation of discount code here.
+    console.log("Discount claimed");
+  }
+
+  const handleOfferClick = () => {
+    //Add tracking here and internal logic.
+    console.log("Offer clicked");
+  }
   return (
     <div>
     <section className="flex items-center justify-center">
       <ProgressRewards
-        highlightColor="#d22730"
-        highlightedText="$20 away "
-        message="You're"
         milestones={[
           {
             claimButton: {
@@ -62,8 +72,7 @@ export default function GamesPage() {
             status: 'locked'
           }
         ]}
-        progress={5}
-        suffixText="from a surprise gift!"
+        progress={rewardAmount || 0}
       />
     </section>
 
@@ -75,6 +84,8 @@ export default function GamesPage() {
       email={email}
       partnerCode={partnerCode}
       onLogin={handleSetEmail}
+      // onOfferClick={handleOfferClick}
+      
     />
     <SectionGames
       email={email}

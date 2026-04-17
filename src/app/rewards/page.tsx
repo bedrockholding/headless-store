@@ -9,8 +9,9 @@ export default function RewardsPage() {
   const partnerCode = "storefront";
   const partnerName = "Storefront";
 
-  const { partnerSettings, activities, sessionUser} = useGameApi(partnerCode,email);
+  const { partnerSettings, sessionUser} = useGameApi(partnerCode,email);
   const handleLogin = (email: string) => {
+    //Add tracking here and internal logic.
     setEmail(email);
   }
 
@@ -18,14 +19,11 @@ export default function RewardsPage() {
     if (sessionUser) {
       setEmail(sessionUser.email || "");
     }
-    console.log("partnerSettings:", partnerSettings);
-    console.log("sessionUser:", sessionUser);
-    console.log("activities:", activities);
+    
   }, [sessionUser])
   
   return (   
     <div>
-      {/* <GetJackedProvider partnerCode="0TSRQK-1Q"> */}
         <SectionHero 
         bundleAmount={Number(partnerSettings?.rewardGoal?.thresholdAmount) || 0}
         to="/rewards/games" />
@@ -40,6 +38,5 @@ export default function RewardsPage() {
         <SectionSteps partnerName={partnerName} images={["https://test.withrcart.com/goli/step-1-bg.png", "https://test.withrcart.com/goli/step-2-bg.png", "https://test.withrcart.com/goli/step-3-bg.png"]} to="/rewards/games" />
         <SectionFaq partnerCode={partnerCode} />
         <SectionTestimonials partnerCode={partnerCode} />
-        {/* </GetJackedProvider> */}
     </div>
 )}
