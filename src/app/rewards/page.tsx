@@ -41,10 +41,6 @@ export default function RewardsPage() {
             setEmail(email);
             console.log("Login with email:", email);
           }}
-          onStartGame={(selectedGame) => {
-            /*add tracking Game starting*/
-            console.log("Start Game Clicked!", selectedGame);
-          }}
           onSelectedGame={(selectedGame) => {
             /*add tracking*/
             console.log("Selected Game!", selectedGame);
@@ -55,6 +51,7 @@ export default function RewardsPage() {
           }}
           onGameCTAClick={(selectedGame) => {
             /*add tracking*/
+            //for logged in users, this will redirect to play store or app store based on the platform.
             console.log("Game CTA Clicked!", selectedGame);
           }}
           onLeft={() => {

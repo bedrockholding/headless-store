@@ -1,11 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
-import { SectionGames, useGameApi, SectionGameHero, ProgressRewards } from "getjacked-components";
+import { SectionGames, useGameApi,  SectionGameHero, ProgressRewards } from "getjacked-components";
 
 export default function GamesPage() {
   const [email, setEmail] = useState("");
   const partnerCode = "storefront";
-  const { games, partnerSettings, activities, loading, error, sessionUser } = useGameApi(
+  const { games, partnerSettings, activities, loading, error, sessionUser, rewardAmount } = useGameApi(
     partnerCode,
     email
   );
