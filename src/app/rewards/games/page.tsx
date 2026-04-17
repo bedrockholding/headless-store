@@ -46,33 +46,26 @@ export default function GamesPage() {
     //Add tracking here and internal logic.
     console.log("Offer clicked");
   }
+
+  const handleFirstMilestoneClaim = () => {
+    //Add tracking here and internal logic.
+    console.log("First milestone claimed");
+  }
+
+  const handleLastMilestoneClaim = () => {
+    //Add tracking here and internal logic.
+    console.log("Last milestone claimed");
+  }
+  
   return (
     <div>
     <section className="flex items-center justify-center">
       <ProgressRewards
-        milestones={[
-          {
-            claimButton: {
-              visible: false
-            },
-            icon: 'dollar',
-            id: '1',
-            label: 'Surprise Gift',
-            position: 21, // Todo: must be dynamic based on reward Amount
-            status: 'locked'
-          },
-          {
-            claimButton: {
-              visible: false
-            },
-            icon: 'gift',
-            id: '2',
-            label: '$160 Storefront Bundle',
-            position: 95,
-            status: 'locked'
-          }
-        ]}
+        milestones={partnerSettings?.milestones || []}
         progress={rewardAmount || 0}
+        totalReward={Number(partnerSettings?.rewardGoal?.thresholdAmount) || 0}
+        onClaimFirstMilestone={handleFirstMilestoneClaim}
+        onClaimLastMilestone={handleLastMilestoneClaim}
       />
     </section>
 
