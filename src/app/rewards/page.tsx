@@ -9,33 +9,72 @@ export default function RewardsPage() {
   const partnerCode = "storefront";
   const partnerName = "Storefront";
 
-  const { partnerSettings, sessionUser} = useGameApi(partnerCode,email);
-  const handleLogin = (email: string) => {
-    //Add tracking here and internal logic.
-    setEmail(email);
-  }
+  const { partnerSettings, activities, sessionUser} = useGameApi(partnerCode,email);
 
   useEffect(() => {
     if (sessionUser) {
       setEmail(sessionUser.email || "");
     }
-    
-  }, [sessionUser])
-  
+    console.log("partnerSettings:", partnerSettings);
+    console.log("sessionUser:", sessionUser);
+    console.log("activities:", activities);
+  }, [sessionUser,activities,partnerSettings])
+
   return (   
     <div>
         <SectionHero 
         bundleAmount={Number(partnerSettings?.rewardGoal?.thresholdAmount) || 0}
-        to="/rewards/games" />
+        to="/rewards/games" 
+        onCTAClick={() => {
+          /*add tracking*/
+          console.log("CTA Clicked!");
+        }}
+        />
         <SectionPartneredGames  
           partnerName={partnerName} 
           partnerCode={partnerCode} 
+          email={email}
           to="/rewards/games"
           bundleAmount={Number(partnerSettings?.rewardGoal?.thresholdAmount) || 0}
-          email={email}
-          onLogin={handleLogin}
+          onLogin={(email) => {
+            /*add tracking Here*/
+            setEmail(email);
+            console.log("Login with email:", email);
+          }}
+          onStartGame={(selectedGame) => {
+            /*add tracking Game starting*/
+            console.log("Start Game Clicked!", selectedGame);
+          }}
+          onSelectedGame={(selectedGame) => {
+            /*add tracking*/
+            console.log("Selected Game!", selectedGame);
+          }}
+          onBrowse={() => {
+            /*add tracking*/
+            console.log("Browse All Games Clicked!");
+          }}
+          onGameCTAClick={(selectedGame) => {
+            /*add tracking*/
+            console.log("Game CTA Clicked!", selectedGame);
+          }}
+          onLeft={() => {
+            /*add tracking*/
+            console.log("Partnered games carousel left");
+          }}
+          onRight={() => {
+            /*add tracking*/
+            console.log("Partnered games carousel right");
+          }}
         />
-        <SectionSteps partnerName={partnerName} images={["https://test.withrcart.com/goli/step-1-bg.png", "https://test.withrcart.com/goli/step-2-bg.png", "https://test.withrcart.com/goli/step-3-bg.png"]} to="/rewards/games" />
+        <SectionSteps 
+          partnerName={partnerName} 
+          images={["https://test.withrcart.com/goli/step-1-bg.png", "https://test.withrcart.com/goli/step-2-bg.png", "https://test.withrcart.com/goli/step-3-bg.png"]} 
+          to="/rewards/games"
+          onCTAClick={() => {
+            /*add tracking*/
+            console.log("Steps CTA Clicked!");
+          }}  
+        />
         <SectionFaq partnerCode={partnerCode} />
         <SectionTestimonials partnerCode={partnerCode} />
     </div>
