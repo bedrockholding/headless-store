@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 
 export default function RewardsPage() {
   const [email, setEmail] = useState("");
+  const [userId, setUserId] = useState("");
   const partnerCode = "storefront";
   const partnerName = "Storefront";
 
@@ -14,6 +15,7 @@ export default function RewardsPage() {
   useEffect(() => {
     if (sessionUser) {
       setEmail(sessionUser.email || "");
+      setUserId(sessionUser.userId || "");
     }
     console.log("partnerSettings:", partnerSettings);
     console.log("sessionUser:", sessionUser);
@@ -23,6 +25,10 @@ export default function RewardsPage() {
   return (
     <div>
         <SectionHero 
+        userId={userId}
+        email={email}
+        partnerCode={partnerCode}
+        partnerName={partnerName}
         bundleAmount={Number(partnerSettings?.rewardGoal?.thresholdAmount) || 0}
         to="/rewards/games" 
         onCTAClick={() => {
@@ -35,6 +41,7 @@ export default function RewardsPage() {
           partnerName={partnerName} 
           partnerCode={partnerCode} 
           email={email}
+          userId={userId}
           activities={activities}
           maxIncompleteOffers={partnerSettings?.maxIncompleteOffers || 0}
           to="/rewards/games"
@@ -77,6 +84,9 @@ export default function RewardsPage() {
           }}
         />
         <SectionSteps 
+          userId={userId}
+          email={email}
+          partnerCode={partnerCode}
           partnerName={partnerName} 
           images={["https://test.withrcart.com/goli/step-1-bg.png", "https://test.withrcart.com/goli/step-2-bg.png", "https://test.withrcart.com/goli/step-3-bg.png"]} 
           to="/rewards/games"
@@ -86,7 +96,7 @@ export default function RewardsPage() {
             console.log("Steps CTA Clicked!");
           }}  
         />
-        <SectionFaq partnerCode={partnerCode} />
+        <SectionFaq userId={userId} email={email} partnerCode={partnerCode} partnerName={partnerName} />
         <SectionTestimonials partnerCode={partnerCode} />
     </div>
   );

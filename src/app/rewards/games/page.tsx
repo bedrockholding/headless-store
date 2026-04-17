@@ -4,7 +4,9 @@ import { SectionGames, useGameApi,  SectionGameHero, ProgressRewards } from "get
 
 export default function GamesPage() {
   const [email, setEmail] = useState("");
+  const [userId, setUserId] = useState("");
   const partnerCode = "storefront";
+  const partnerName = "Storefront";
   const { games, partnerSettings, activities, loading, error, sessionUser, rewardAmount } =
     useGameApi(partnerCode, email);
 
@@ -20,6 +22,7 @@ export default function GamesPage() {
   useEffect(() => {
     if (sessionUser) {
       setEmail(sessionUser.email || "");
+      setUserId(sessionUser.userId || "");
     }
     console.log("partnerSettings:", partnerSettings);
     console.log("sessionUser:", sessionUser);
@@ -49,12 +52,13 @@ export default function GamesPage() {
     </section>
 
     <SectionGameHero
-      game={heroGame}
-      onCtaClick={handleHeroCta}
-      partnerName="Storefront"
-      bundleAmount={Number(partnerSettings?.rewardGoal?.thresholdAmount) || 0}
+      userId={userId}
       email={email}
       partnerCode={partnerCode}
+      partnerName={partnerName}
+      game={heroGame}
+      onCtaClick={handleHeroCta}
+      bundleAmount={Number(partnerSettings?.rewardGoal?.thresholdAmount) || 0}
       onLogin={(nextEmail) => {
         // User finished email/login in the hero flow; sync React state so useGameApi(partnerCode, email) refetches with the new identity.
         // TODO: analytics — identify / login_completed (source: hero)
@@ -81,8 +85,10 @@ export default function GamesPage() {
     />
     <SectionGames
       maxIncompleteOffers={partnerSettings?.maxIncompleteOffers || 0}
+      userId={userId}
       email={email}
       partnerCode={partnerCode}
+      partnerName={partnerName}
       bundleAmount={Number(partnerSettings?.rewardGoal?.thresholdAmount) || 0}
       onLogin={(nextEmail) => {
         // Same as hero: email/login from the games grid or modals owned by SectionGames.
