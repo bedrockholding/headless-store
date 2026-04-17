@@ -46,6 +46,18 @@ export default function GamesPage() {
         milestones={partnerSettings?.milestones || []}
         progress={rewardAmount || 0}
         totalReward={Number(partnerSettings?.rewardGoal?.thresholdAmount) || 0}
+        discountAmount = {Number(partnerSettings?.rewardGoal?.discount) || 0}
+        goalAmount = {Number(partnerSettings?.rewardGoal?.thresholdAmount) || 0}
+        code = "STORE100"
+        onCopyWithRedirect={() => {
+          //Add tracking here and internal logic.
+          console.log("Copy with redirect");
+        }}
+        onClaimLater={() => {
+          //Add tracking here and internal logic.
+          console.log("Claim later");
+        }}
+        redirectUrl = "https://example.com/"
         onClaimFirstMilestone={handleFirstMilestoneClaim}
         onClaimLastMilestone={handleLastMilestoneClaim}
         partnerName={partnerName}
