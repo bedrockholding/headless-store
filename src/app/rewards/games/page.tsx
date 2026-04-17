@@ -38,7 +38,7 @@ export default function GamesPage() {
     //Add tracking here and internal logic.
     console.log("Last milestone claimed");
   }
-  
+
   return (
     <div>
     <section className="flex items-center justify-center">
@@ -88,6 +88,8 @@ export default function GamesPage() {
       maxIncompleteOffers={partnerSettings?.maxIncompleteOffers || 0}
       userId={userId}
       email={email}
+      partnerSettings={partnerSettings}
+      rewardAmount={rewardAmount}
       partnerCode={partnerCode}
       partnerName={partnerName}
       bundleAmount={Number(partnerSettings?.rewardGoal?.thresholdAmount) || 0}
