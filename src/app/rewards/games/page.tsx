@@ -76,8 +76,11 @@ export default function GamesPage() {
         // TODO: analytics — game_cta_click (source: hero)
         console.log("Game CTA Clicked!", selectedGame);
       }}
+      activities={activities}
+      maxIncompleteOffers={partnerSettings?.maxIncompleteOffers || 0}
     />
     <SectionGames
+      maxIncompleteOffers={partnerSettings?.maxIncompleteOffers || 0}
       email={email}
       partnerCode={partnerCode}
       bundleAmount={Number(partnerSettings?.rewardGoal?.thresholdAmount) || 0}
