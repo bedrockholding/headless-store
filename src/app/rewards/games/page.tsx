@@ -5,13 +5,12 @@ import { SectionGames, useGameApi,  SectionGameHero, ProgressRewards } from "get
 export default function GamesPage() {
   const [email, setEmail] = useState("");
   const partnerCode = "storefront";
-  const { games, partnerSettings, activities, loading, error, sessionUser, rewardAmount } = useGameApi(
-    partnerCode,
-    email
-  );
+  const { games, partnerSettings, activities, loading, error, sessionUser, rewardAmount } =
+    useGameApi(partnerCode, email);
 
+  /** Fired when the user taps the featured game’s primary CTA in the hero (getjacked-components). */
   const handleHeroCta = () => {
-    /*add tracking*/
+    // TODO: analytics — hero primary CTA
     console.log("Starting to play game...");
   };
 
@@ -26,9 +25,6 @@ export default function GamesPage() {
     console.log("sessionUser:", sessionUser);
     console.log("activities:", activities);
   }, [sessionUser, activities, partnerSettings]);
-  
-  console.log("sessionUser:", sessionUser);
-  console.log("activities:", activities);  
 
   const handleFirstMilestoneClaim = () => {
     //Add tracking here and internal logic.
@@ -60,20 +56,24 @@ export default function GamesPage() {
       email={email}
       partnerCode={partnerCode}
       onLogin={(nextEmail) => {
-        /*add tracking Here*/
+        // User finished email/login in the hero flow; sync React state so useGameApi(partnerCode, email) refetches with the new identity.
+        // TODO: analytics — identify / login_completed (source: hero)
         setEmail(nextEmail);
         console.log("Login with email:", nextEmail);
       }}
       onStartGame={(selectedGame) => {
-        /*add tracking Game starting*/
+        // User chose to start the featured offer from the hero (e.g. install / play flow). `selectedGame` is the offer payload from the library.
+        // TODO: analytics — game_start (source: hero)
         console.log("Start Game Clicked!", selectedGame);
       }}
       onSelectedGame={(selectedGame) => {
-        /*add tracking*/
+        // User focused or selected the featured game without necessarily starting it (library-specific interaction).
+        // TODO: analytics — game_selected (source: hero)
         console.log("Selected Game!", selectedGame);
       }}
       onGameCTAClick={(selectedGame) => {
-        /*add tracking*/
+        // Secondary CTA on the game card in the hero (e.g. “details” / alternate action), not the same as onCtaClick in all themes.
+        // TODO: analytics — game_cta_click (source: hero)
         console.log("Game CTA Clicked!", selectedGame);
       }}
     />
@@ -82,24 +82,29 @@ export default function GamesPage() {
       partnerCode={partnerCode}
       bundleAmount={Number(partnerSettings?.rewardGoal?.thresholdAmount) || 0}
       onLogin={(nextEmail) => {
-        /*add tracking Here*/
+        // Same as hero: email/login from the games grid or modals owned by SectionGames.
+        // TODO: analytics — identify / login_completed (source: games)
         setEmail(nextEmail);
         console.log("Login with email:", nextEmail);
       }}
       onStartGame={(selectedGame) => {
-        /*add tracking Game starting*/
+        // User started an offer from the list / activities area (not necessarily the hero game).
+        // TODO: analytics — game_start (source: games)
         console.log("Start Game Clicked!", selectedGame);
       }}
       onSelectedGame={(selectedGame) => {
-        /*add tracking*/
+        // User highlighted or selected a game in the grid before starting.
+        // TODO: analytics — game_selected (source: games)
         console.log("Selected Game!", selectedGame);
       }}
       onGameCTAClick={(selectedGame) => {
-        /*add tracking*/
+        // Extra CTA on a game row/card in SectionGames.
+        // TODO: analytics — game_cta_click (source: games)
         console.log("Game CTA Clicked!", selectedGame);
       }}
       onTabChange={(tab) => {
-        /*add tracking*/
+        // Switches between e.g. “all games” vs “activities” inside SectionGames.
+        // TODO: analytics — games_tab_change
         console.log("Games tab changed:", tab);
       }}
       games={gameList}
