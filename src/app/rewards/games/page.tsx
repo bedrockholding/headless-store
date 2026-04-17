@@ -48,6 +48,7 @@ export default function GamesPage() {
         totalReward={Number(partnerSettings?.rewardGoal?.thresholdAmount) || 0}
         onClaimFirstMilestone={handleFirstMilestoneClaim}
         onClaimLastMilestone={handleLastMilestoneClaim}
+        partnerName={partnerName}
       />
     </section>
 

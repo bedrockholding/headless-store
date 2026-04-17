@@ -27,6 +27,7 @@ export function ProgressRewardsClient({
       milestones={milestones}
       progress={progress}
       suffixText={suffixText}
+      partnerName={"Storefront"}
     />
   );
 }
