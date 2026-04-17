@@ -7,6 +7,7 @@ type ProgressRewardsClientProps = {
   milestones: any[];
   progress: number;
   suffixText: string;
+  totalReward: number;
 };
 export function ProgressRewardsClient({
   highlightColor,
@@ -15,9 +16,11 @@ export function ProgressRewardsClient({
   milestones,
   progress,
   suffixText,
+  totalReward
 }: ProgressRewardsClientProps) {
   return (
     <ProgressRewards
+      totalReward={totalReward}
       highlightColor={highlightColor}
       highlightedText={highlightedText}
       message={message}

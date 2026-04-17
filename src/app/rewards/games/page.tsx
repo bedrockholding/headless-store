@@ -30,17 +30,6 @@ export default function GamesPage() {
   console.log("sessionUser:", sessionUser);
   console.log("activities:", activities);  
 
-  const handleDiscountClaim = () => {
-    //Add tracking here and internal logic.
-    //Add generation of discount code here.
-    console.log("Discount claimed");
-  }
-
-  const handleOfferClick = () => {
-    //Add tracking here and internal logic.
-    console.log("Offer clicked");
-  }
-
   const handleFirstMilestoneClaim = () => {
     //Add tracking here and internal logic.
     console.log("First milestone claimed");
