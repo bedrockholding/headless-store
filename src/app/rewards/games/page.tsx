@@ -75,8 +75,10 @@ export default function GamesPage() {
         }}
         redirectUrl = "https://example.com/"
         onClaimFirstMilestone={handleFirstMilestoneClaim}
+        // onFirstMilestoneReward={handleFirstMilestoneReward}
         onClaimLastMilestone={handleLastMilestoneClaim}
         partnerName={partnerName}
+        onGenerateDiscountCode={handleGenerateDiscountCode}
       />
     </section>
 

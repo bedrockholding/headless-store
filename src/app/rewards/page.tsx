@@ -82,6 +82,7 @@ export default function RewardsPage() {
             // TODO: analytics — partnered_games_carousel_next
             console.log("Partnered games carousel right");
           }}
+          // onGenerateDiscountCode={handleGenerateDiscountCode}
         />
         <SectionSteps 
           userId={userId}
