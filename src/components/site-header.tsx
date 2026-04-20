@@ -1,20 +1,22 @@
 import Link from "next/link";
 import { AccountNav } from "@/components/account-nav";
-import { getCartLineCount } from "@/app/actions/cart";  
+import { getCartLineCount } from "@/app/actions/cart";
 import { ProgressAmountClient } from "@/components/progress-amount-client";
+import { ProgressRewardsClient } from "@/components/progress-rewards-client";
 
 export async function SiteHeader() {
   const count = await getCartLineCount();
 
   return (
     <header className="sticky top-0 z-20 border-b border-zinc-200 bg-white/90 backdrop-blur">
-      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
+      <div className="mx-auto flex h-14 lg:h-24 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
         <Link
           href="/"
           className="text-lg font-semibold tracking-tight text-zinc-900"
         >
           Storefront
         </Link>
+        <ProgressRewardsClient />
         <nav className="flex flex-wrap items-center gap-3 text-sm font-medium text-zinc-700 sm:gap-4">
            <AccountNav />
           <Link href="/rewards" className="hover:text-zinc-900">

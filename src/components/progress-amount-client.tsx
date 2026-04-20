@@ -18,7 +18,7 @@ function RewardsGamesProgressAmount() {
   const partnerCode = "storefront";
   const { rewardAmount, sessionUser, partnerSettings } = useGameApi(partnerCode, "");
 
-  if (!sessionUser.email) {
+  if (!sessionUser?.email) {
     return (
       <>
         <a
