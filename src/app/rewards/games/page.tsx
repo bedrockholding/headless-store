@@ -82,6 +82,7 @@ export default function GamesPage() {
         rewardAmount={rewardAmount || 0}
         discountAmount = {Number(partnerSettings?.rewardGoal?.discount) || 0}
         goalAmount = {Number(partnerSettings?.rewardGoal?.thresholdAmount) || 0}
+        userId={userId}
         code={discountCode || ""}
         onCopyWithRedirect={() => {
           //Add tracking here and internal logic.
@@ -130,10 +131,10 @@ export default function GamesPage() {
         console.log("Game CTA Clicked!", selectedGame);
       }}
       activities={activities}
-      maxIncompleteOffers={partnerSettings?.maxIncompleteOffers || 0}
+      maxIncompleteOffers={partnerSettings?.maxIncompleteOffers || 5}
     />
     <SectionGames
-      maxIncompleteOffers={partnerSettings?.maxIncompleteOffers || 0}
+      maxIncompleteOffers={partnerSettings?.maxIncompleteOffers || 5}
       userId={userId}
       email={email}
       partnerSettings={partnerSettings}
