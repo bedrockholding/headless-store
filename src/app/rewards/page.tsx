@@ -10,7 +10,7 @@ export default function RewardsPage() {
   const partnerCode = "storefront";
   const partnerName = "Storefront";
 
-  const { partnerSettings, activities, sessionUser } = useGameApi(partnerCode, email);
+  const { partnerSettings, activities, sessionUser, rewardAmount } = useGameApi(partnerCode, email);
 
   useEffect(() => {
     if (sessionUser) {
@@ -46,6 +46,7 @@ export default function RewardsPage() {
           maxIncompleteOffers={partnerSettings?.maxIncompleteOffers || 0}
           to="/rewards/games"
           bundleAmount={Number(partnerSettings?.rewardGoal?.thresholdAmount) || 0}
+          rewardAmount={Number(rewardAmount) || 0}
           onLogin={(nextEmail) => {
             // User completed email/login in the partnered-games strip; keep React state in sync so useGameApi(partnerCode, email) updates.
             // TODO: analytics — identify / login_completed (source: rewards_partnered_games)

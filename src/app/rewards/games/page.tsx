@@ -90,6 +90,7 @@ export default function GamesPage() {
       game={heroGame}
       onCtaClick={handleHeroCta}
       bundleAmount={Number(partnerSettings?.rewardGoal?.thresholdAmount) || 0}
+      rewardAmount={Number(rewardAmount) || 0}
       onLogin={(nextEmail) => {
         // User finished email/login in the hero flow; sync React state so useGameApi(partnerCode, email) refetches with the new identity.
         // TODO: analytics — identify / login_completed (source: hero)
@@ -119,7 +120,7 @@ export default function GamesPage() {
       userId={userId}
       email={email}
       partnerSettings={partnerSettings}
-      rewardAmount={rewardAmount}
+      rewardAmount={Number(rewardAmount) || 0}
       partnerCode={partnerCode}
       partnerName={partnerName}
       bundleAmount={Number(partnerSettings?.rewardGoal?.thresholdAmount) || 0}
