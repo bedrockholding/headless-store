@@ -43,7 +43,7 @@ export default function RewardsPage() {
           email={email}
           userId={userId}
           activities={activities}
-          maxIncompleteOffers={partnerSettings?.maxIncompleteOffers || 0}
+          maxIncompleteOffers={partnerSettings?.maxIncompleteOffers || 5}
           to="/rewards/games"
           bundleAmount={Number(partnerSettings?.rewardGoal?.thresholdAmount) || 0}
           rewardAmount={Number(rewardAmount) || 0}
