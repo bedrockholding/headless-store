@@ -49,7 +49,7 @@ export function ProgressAmountClient() {
   if (!onRewardsGames) {
     return (
       <a
-        href="/rewards"
+        href="/rewards/games"
         className="items-center bg-black py-2.5 px-3 text-[14px] font-bold text-white hover:opacity-90 hidden sm:inline-flex"
       >
         Start Earning Now

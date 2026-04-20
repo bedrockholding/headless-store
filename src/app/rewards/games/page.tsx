@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { SectionGames, useGameApi,  SectionGameHero, ProgressRewards } from "getjacked-components";
+import { generateDiscountCode } from "@/lib/generate-discount-code";
 
 export default function GamesPage() {
   const [email, setEmail] = useState("");
@@ -8,7 +9,7 @@ export default function GamesPage() {
   const [discountCode, setDiscountCode] = useState("");
   const partnerCode = "storefront";
   const partnerName = "Storefront";
-  const { games, partnerSettings, activities, loading, error, sessionUser, rewardAmount } =
+  const { games, partnerSettings, activities, loading, error, sessionUser, rewardAmount,refetch } =
     useGameApi(partnerCode, email);
 
   /** Fired when the user taps the featured game’s primary CTA in the hero (getjacked-components). */
@@ -32,6 +33,9 @@ export default function GamesPage() {
 
   const handleFirstMilestoneClaim = () => {
     //Add tracking here and internal logic.
+    handleGenerateDiscountCode();
+     //Add generation of discount code here.
+     setDiscountCode(generateDiscountCode());
     console.log("First milestone claimed");
   }
 
@@ -52,9 +56,11 @@ export default function GamesPage() {
 
   const handleGenerateDiscountCode = () => {
     //Add tracking here and internal logic.
-    setDiscountCode("STORE100");
+    setDiscountCode(generateDiscountCode());
     console.log("Generate discount code");
   }
+
+
   return (
     <div>
     <section className="flex items-center justify-center">
@@ -75,7 +81,6 @@ export default function GamesPage() {
         }}
         redirectUrl = "https://example.com/"
         onClaimFirstMilestone={handleFirstMilestoneClaim}
-        // onFirstMilestoneReward={handleFirstMilestoneReward}
         onClaimLastMilestone={handleLastMilestoneClaim}
         partnerName={partnerName}
         onGenerateDiscountCode={handleGenerateDiscountCode}

@@ -34,6 +34,10 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="#FFFFFE" />
+        
       <body className="flex min-h-full flex-col bg-zinc-50 text-zinc-900">
         <QueryProvider>
           
