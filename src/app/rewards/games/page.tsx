@@ -2,6 +2,18 @@
 import { useEffect, useState } from "react";
 import { SectionGames, useGameApi,  SectionGameHero, ProgressRewards } from "getjacked-components";
 import { generateDiscountCode } from "@/lib/generate-discount-code";
+import type { ComponentType } from "react";
+
+type SessionUserShape = { email?: string; userId?: string } | null | undefined;
+
+type ExtendedGameApi = ReturnType<typeof useGameApi> & {
+  sessionUser?: SessionUserShape;
+};
+
+/** Library runtime includes extra props; published `.d.ts` can lag. */
+const ProgressRewardsExtended = ProgressRewards as unknown as ComponentType<
+  Record<string, unknown>
+>;
 
 export default function GamesPage() {
   const [email, setEmail] = useState("");
@@ -10,7 +22,7 @@ export default function GamesPage() {
   const partnerCode = "storefront";
   const partnerName = "Storefront";
   const { games, partnerSettings, activities, loading, error, sessionUser, rewardAmount } =
-    useGameApi(partnerCode, email);
+    useGameApi(partnerCode, email) as ExtendedGameApi;
 
   /** Fired when the user taps the featured game’s primary CTA in the hero (getjacked-components). */
   const handleHeroCta = () => {
@@ -63,8 +75,9 @@ export default function GamesPage() {
 
   return (
     <div>
-    <section className="flex items-center justify-center">
-      <ProgressRewards
+    <section className="flex items-center justify-center lg:hidden">
+      <ProgressRewardsExtended
+        className="min-w-0 max-w-sm"
         milestones={partnerSettings?.milestones || []}
         rewardAmount={rewardAmount || 0}
         discountAmount = {Number(partnerSettings?.rewardGoal?.discount) || 0}
@@ -78,7 +91,7 @@ export default function GamesPage() {
           //Add tracking here and internal logic.
           console.log("Claim later");
         }}
-        redirectUrl = "https://example.com/"
+        redirectUrl="https://example.com/"
         onClaimFirstMilestone={handleFirstMilestoneClaim}
         onClaimLastMilestone={handleLastMilestoneClaim}
         partnerName={partnerName}
