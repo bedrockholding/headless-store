@@ -5,6 +5,7 @@ import { SectionGames, useGameApi,  SectionGameHero, ProgressRewards } from "get
 export default function GamesPage() {
   const [email, setEmail] = useState("");
   const [userId, setUserId] = useState("");
+  const [discountCode, setDiscountCode] = useState("");
   const partnerCode = "storefront";
   const partnerName = "Storefront";
   const { games, partnerSettings, activities, loading, error, sessionUser, rewardAmount } =
@@ -39,6 +40,21 @@ export default function GamesPage() {
     console.log("Last milestone claimed");
   }
 
+  const handleCopyWithRedirect = () => {
+    //Add tracking here and internal logic.
+    console.log("Copy with redirect");
+  }
+
+  const handleClaimLater = () => {
+    //Add tracking here and internal logic.
+    console.log("Claim later");
+  }
+
+  const handleGenerateDiscountCode = () => {
+    //Add tracking here and internal logic.
+    setDiscountCode("STORE100");
+    console.log("Generate discount code");
+  }
   return (
     <div>
     <section className="flex items-center justify-center">
@@ -48,7 +64,7 @@ export default function GamesPage() {
         totalReward={Number(partnerSettings?.rewardGoal?.thresholdAmount) || 0}
         discountAmount = {Number(partnerSettings?.rewardGoal?.discount) || 0}
         goalAmount = {Number(partnerSettings?.rewardGoal?.thresholdAmount) || 0}
-        code = "STORE100"
+        code={discountCode || ""}
         onCopyWithRedirect={() => {
           //Add tracking here and internal logic.
           console.log("Copy with redirect");
