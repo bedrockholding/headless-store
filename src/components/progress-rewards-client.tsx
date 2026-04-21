@@ -5,27 +5,27 @@ type ProgressRewardsClientProps = {
   highlightedText: string;
   message: string;
   milestones: any[];
-  progress: number;
+  rewardAmount: number;
   suffixText: string;
-  totalReward: number;
+  goalAmount: number;
 };
 export function ProgressRewardsClient({
   highlightColor,
   highlightedText,
   message,
   milestones,
-  progress,
+  rewardAmount,
   suffixText,
-  totalReward
+  goalAmount
 }: ProgressRewardsClientProps) {
   return (
     <ProgressRewards
-      totalReward={totalReward}
+      goalAmount={goalAmount}
       highlightColor={highlightColor}
       highlightedText={highlightedText}
       message={message}
       milestones={milestones}
-      progress={progress}
+      rewardAmount={rewardAmount}
       suffixText={suffixText}
       partnerName={"Storefront"}
     />

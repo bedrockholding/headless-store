@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { SectionGames, useGameApi,  SectionGameHero, ProgressRewards } from "getjacked-components";
+import { SectionGames, useGameApi,  SectionGameHero, ProgressRewards, ModalSurpriseGift } from "getjacked-components";
 import { generateDiscountCode } from "@/lib/generate-discount-code";
 
 export default function GamesPage() {
@@ -9,7 +9,7 @@ export default function GamesPage() {
   const [discountCode, setDiscountCode] = useState("");
   const partnerCode = "storefront";
   const partnerName = "Storefront";
-  const { games, partnerSettings, activities, loading, error, sessionUser, rewardAmount,refetch } =
+  const { games, partnerSettings, activities, loading, error, sessionUser, rewardAmount } =
     useGameApi(partnerCode, email);
 
   /** Fired when the user taps the featured game’s primary CTA in the hero (getjacked-components). */
@@ -66,8 +66,7 @@ export default function GamesPage() {
     <section className="flex items-center justify-center">
       <ProgressRewards
         milestones={partnerSettings?.milestones || []}
-        progress={rewardAmount || 0}
-        totalReward={Number(partnerSettings?.rewardGoal?.thresholdAmount) || 0}
+        rewardAmount={rewardAmount || 0}
         discountAmount = {Number(partnerSettings?.rewardGoal?.discount) || 0}
         goalAmount = {Number(partnerSettings?.rewardGoal?.thresholdAmount) || 0}
         code={discountCode || ""}
@@ -159,6 +158,10 @@ export default function GamesPage() {
       loading={loading}
       error={error}
     />
+    <ModalSurpriseGift
+      partnerName={partnerName}
+      discountCode={discountCode}
+      />
     </div>
   );
 }
