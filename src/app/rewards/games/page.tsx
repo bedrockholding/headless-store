@@ -34,10 +34,6 @@ export default function GamesPage() {
   const gameList = games?.slice(1);
 
   useEffect(() => {
-    if (sessionUser) {
-      setEmail(sessionUser.email || "");
-      setUserId(sessionUser.userId || "");
-    }
     console.log("partnerSettings:", partnerSettings);
     console.log("sessionUser:", sessionUser);
     console.log("activities:", activities);
@@ -82,7 +78,6 @@ export default function GamesPage() {
         rewardAmount={rewardAmount || 0}
         discountAmount = {Number(partnerSettings?.rewardGoal?.discount) || 0}
         goalAmount = {Number(partnerSettings?.rewardGoal?.thresholdAmount) || 0}
-        userId={userId}
         code={discountCode || ""}
         onCopyWithRedirect={() => {
           //Add tracking here and internal logic.
@@ -101,8 +96,6 @@ export default function GamesPage() {
     </section>
 
     <SectionGameHero
-      userId={userId}
-      email={email}
       partnerCode={partnerCode}
       partnerName={partnerName}
       game={heroGame}
@@ -135,8 +128,6 @@ export default function GamesPage() {
     />
     <SectionGames
       maxIncompleteOffers={partnerSettings?.maxIncompleteOffers || 5}
-      userId={userId}
-      email={email}
       partnerSettings={partnerSettings}
       rewardAmount={Number(rewardAmount) || 0}
       partnerCode={partnerCode}
