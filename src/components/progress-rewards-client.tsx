@@ -43,6 +43,13 @@ const ProgressRewardsExtended = ProgressRewards as unknown as ComponentType<
  */
 export function ProgressRewardsClient() {
   const pathname = usePathname();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    queueMicrotask(() => {
+      setMounted(true);
+    });
+  }, []);
 
   const [email, setEmail] = useState("");
   const [discountCode, setDiscountCode] = useState("");
@@ -75,7 +82,7 @@ export function ProgressRewardsClient() {
     console.log("Generate discount code");
   };
 
-  if (!isRewardsGamesPath(pathname)) {
+  if (!mounted || !isRewardsGamesPath(pathname)) {
     return null;
   }
 

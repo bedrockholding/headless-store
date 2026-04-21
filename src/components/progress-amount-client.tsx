@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { ProgressAmount, useGameApi } from "getjacked-components";
 
@@ -45,6 +46,20 @@ function RewardsGamesProgressAmount() {
 export function ProgressAmountClient() {
   const pathname = usePathname();
   const onRewardsGames = isRewardsGamesPath(pathname);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    queueMicrotask(() => {
+      setMounted(true);
+    });
+  }, []);
+
+  // Avoid hydration mismatch: `useGameApi` session (and sometimes pathname timing)
+  // can differ between SSR and the first client render, which changes node count
+  // before the cart link and breaks hydration.
+  if (!mounted) {
+    return null;
+  }
 
   if (!onRewardsGames) {
     return (
