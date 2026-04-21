@@ -33,6 +33,7 @@ export default function RewardsPage() {
         <SectionPartneredGames  
           partnerName={partnerName} 
           partnerCode={partnerCode} 
+          partnerSettings={partnerSettings}
           activities={activities}
           maxIncompleteOffers={partnerSettings?.maxIncompleteOffers || 5}
           to="/rewards/games"
