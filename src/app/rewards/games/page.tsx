@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { SectionGames, useGameApi,  SectionGameHero, ProgressRewards, ModalSurpriseGift } from "getjacked-components";
+import { SectionGames, useGameApi,  SectionGameHero, ProgressRewards } from "getjacked-components";
 import { generateDiscountCode } from "@/lib/generate-discount-code";
 
 export default function GamesPage() {
@@ -158,10 +158,7 @@ export default function GamesPage() {
       loading={loading}
       error={error}
     />
-    <ModalSurpriseGift
-      partnerName={partnerName}
-      discountCode={discountCode}
-      />
+ 
     </div>
   );
 }
