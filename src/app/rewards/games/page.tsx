@@ -95,6 +95,7 @@ export default function GamesPage() {
     <SectionGameHero
       partnerCode={partnerCode}
       partnerName={partnerName}
+      partnerSettings={partnerSettings}
       game={heroGame}
       onCtaClick={handleHeroCta}
       bundleAmount={Number(partnerSettings?.rewardGoal?.thresholdAmount) || 0}
