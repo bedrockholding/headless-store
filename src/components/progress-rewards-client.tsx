@@ -34,11 +34,17 @@ export function ProgressRewardsClient() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    queueMicrotask(() => {
-      setMounted(true);
-    });
+    setMounted(true);
   }, []);
 
+  if (!mounted || !isRewardsGamesPath(pathname)) {
+    return null;
+  }
+
+  return <ProgressRewardsInner />;
+}
+
+function ProgressRewardsInner() {
   const [email, setEmail] = useState("");
   const [discountCode, setDiscountCode] = useState("");
   const partnerCode = "storefront";
@@ -52,9 +58,7 @@ export function ProgressRewardsClient() {
   useEffect(() => {
     if (!sessionUser) return;
     const next = sessionUser.email || "";
-    queueMicrotask(() => {
-      setEmail(next);
-    });
+    setEmail(next);
   }, [sessionUser]);
 
   const milestones = useMemo(
@@ -82,10 +86,6 @@ export function ProgressRewardsClient() {
     setDiscountCode("STORE100");
     console.log("Generate discount code");
   };
-
-  if (!mounted || !isRewardsGamesPath(pathname)) {
-    return null;
-  }
 
   return (
     <div
