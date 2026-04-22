@@ -4,22 +4,17 @@ import { useEffect, useMemo, useState } from "react";
 import { usePathname } from "next/navigation";
 import type { ComponentType } from "react";
 import type { iPartnerSettings } from "getjacked-components";
-import { ProgressAmount, ProgressRewards, useGameApi } from "getjacked-components";
+import { ProgressAmount, ProgressRewards } from "getjacked-components";
 import { generateDiscountCode } from "@/lib/generate-discount-code";
 import {
   isBundleGoldNavState,
   milestonesWithDerivedEarnedStatus,
 } from "@/lib/reward-milestones";
 
-const REWARDS_GAMES_PATH = "/rewards/games";
-
-function isRewardsGamesPath(pathname: string | null) {
-  if (!pathname) return false;
-  return (
-    pathname === REWARDS_GAMES_PATH ||
-    pathname.startsWith(`${REWARDS_GAMES_PATH}/`)
-  );
-}
+import {
+  isRewardsGamesPath,
+  useRewardsGamesApiOptional,
+} from "@/components/rewards-games-api-provider";
 
 const ProgressRewardsExtended = ProgressRewards as unknown as ComponentType<
   Record<string, unknown>
@@ -128,17 +123,16 @@ function NavProgressBody({
   );
 }
 
-function RewardsGamesProgressAmount() {
-  const { rewardAmount, sessionUser, partnerSettings } = useGameApi(
-    "storefront",
-    ""
-  );
+/** Shared games API from `RewardsGamesApiBoundary` (root layout on `/rewards/games`). */
+function RewardsGamesNavProgress() {
+  const ctx = useRewardsGamesApiOptional();
+  if (!ctx) return null;
 
   return (
     <NavProgressBody
-      rewardAmount={rewardAmount || 0}
-      partnerSettings={partnerSettings}
-      sessionUser={sessionUser}
+      rewardAmount={ctx.rewardAmount || 0}
+      partnerSettings={ctx.partnerSettings}
+      sessionUser={ctx.sessionUser}
     />
   );
 }
@@ -169,5 +163,5 @@ export function ProgressAmountClient() {
     );
   }
 
-  return <RewardsGamesProgressAmount />;
+  return <RewardsGamesNavProgress />;
 }

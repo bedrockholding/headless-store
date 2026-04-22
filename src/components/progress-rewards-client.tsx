@@ -3,27 +3,19 @@
 import { useEffect, useMemo, useState } from "react";
 import type { ComponentType } from "react";
 import { usePathname } from "next/navigation";
-import { ProgressRewards, useGameApi } from "getjacked-components";
+import { ProgressRewards } from "getjacked-components";
+
+import {
+  isRewardsGamesPath,
+  useRewardsGamesApiOptional,
+} from "@/components/rewards-games-api-provider";
+import { generateDiscountCode } from "@/lib/generate-discount-code";
 import {
   isBundleGoldNavState,
   milestonesWithDerivedEarnedStatus,
 } from "@/lib/reward-milestones";
 
-const REWARDS_GAMES_PATH = "/rewards/games";
-
-function isRewardsGamesPath(pathname: string | null) {
-  if (!pathname) return false;
-  return (
-    pathname === REWARDS_GAMES_PATH ||
-    pathname.startsWith(`${REWARDS_GAMES_PATH}/`)
-  );
-}
-
 type SessionUserShape = { email?: string; userId?: string } | null | undefined;
-
-type ExtendedGameApi = ReturnType<typeof useGameApi> & {
-  sessionUser?: SessionUserShape;
-};
 
 const ProgressRewardsExtended = ProgressRewards as unknown as ComponentType<
   Record<string, unknown>
@@ -32,6 +24,10 @@ const ProgressRewardsExtended = ProgressRewards as unknown as ComponentType<
 export function ProgressRewardsClient() {
   const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
+  const [discountCode, setDiscountCode] = useState("");
+  const partnerName = "Storefront";
+
+  const ctx = useRewardsGamesApiOptional();
 
   useEffect(() => {
     queueMicrotask(() => {
@@ -39,23 +35,9 @@ export function ProgressRewardsClient() {
     });
   }, []);
 
-  const [email, setEmail] = useState("");
-  const [discountCode, setDiscountCode] = useState("");
-  const partnerCode = "storefront";
-  const partnerName = "Storefront";
-
-  const { partnerSettings, sessionUser, rewardAmount } = useGameApi(
-    partnerCode,
-    email
-  ) as ExtendedGameApi;
-
-  useEffect(() => {
-    if (!sessionUser) return;
-    const next = sessionUser.email || "";
-    queueMicrotask(() => {
-      setEmail(next);
-    });
-  }, [sessionUser]);
+  const partnerSettings = ctx?.partnerSettings;
+  const sessionUser = ctx?.sessionUser as SessionUserShape | undefined;
+  const rewardAmount = ctx?.rewardAmount ?? 0;
 
   const milestones = useMemo(
     () =>
@@ -79,11 +61,11 @@ export function ProgressRewardsClient() {
   };
 
   const handleGenerateDiscountCode = () => {
-    setDiscountCode("STORE100");
+    setDiscountCode(generateDiscountCode());
     console.log("Generate discount code");
   };
 
-  if (!mounted || !isRewardsGamesPath(pathname)) {
+  if (!mounted || !isRewardsGamesPath(pathname) || !ctx) {
     return null;
   }
 

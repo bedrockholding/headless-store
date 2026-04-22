@@ -6,6 +6,8 @@ import { SiteHeader } from "@/components/site-header";
 
 import "./globals.css";
 
+import { RewardsGamesApiBoundary } from "@/components/rewards-games-api-provider";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -40,9 +42,10 @@ export default function RootLayout({
         
       <body className="flex min-h-full flex-col bg-zinc-50 text-zinc-900">
         <QueryProvider>
-          
-          <SiteHeader />
-          <main className="flex-1">{children}</main>
+          <RewardsGamesApiBoundary>
+            <SiteHeader />
+            <main className="flex-1">{children}</main>
+          </RewardsGamesApiBoundary>
           <footer className="border-t border-zinc-200 bg-white py-8 text-center text-sm text-zinc-500">
             Powered by Shopify · Built with Next.js
           </footer>
