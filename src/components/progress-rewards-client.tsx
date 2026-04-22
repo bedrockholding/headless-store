@@ -1,22 +1,15 @@
 "use client";
-type ProgressRewardsClientProps = {
-  highlightColor: string;
-  highlightedText: string;
-  message: string;
-  milestones: any[];
-  rewardAmount: number;
-  suffixText: string;
-  goalAmount: number;
-};
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { ComponentType } from "react";
 import { usePathname } from "next/navigation";
 import { ProgressRewards, useGameApi } from "getjacked-components";
+import {
+  isBundleGoldNavState,
+  milestonesWithDerivedEarnedStatus,
+} from "@/lib/reward-milestones";
 
 const REWARDS_GAMES_PATH = "/rewards/games";
-
-
 
 function isRewardsGamesPath(pathname: string | null) {
   if (!pathname) return false;
@@ -32,15 +25,10 @@ type ExtendedGameApi = ReturnType<typeof useGameApi> & {
   sessionUser?: SessionUserShape;
 };
 
-/** Library runtime includes extra props; published `.d.ts` can lag. */
 const ProgressRewardsExtended = ProgressRewards as unknown as ComponentType<
   Record<string, unknown>
 >;
 
-/**
- * Full rewards progress (same as games page), shown in the site header on large screens
- * only while on `/rewards/games`.
- */
 export function ProgressRewardsClient() {
   const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
@@ -69,6 +57,19 @@ export function ProgressRewardsClient() {
     });
   }, [sessionUser]);
 
+  const milestones = useMemo(
+    () =>
+      milestonesWithDerivedEarnedStatus(
+        partnerSettings?.milestones ?? undefined,
+        rewardAmount || 0
+      ),
+    [partnerSettings?.milestones, rewardAmount]
+  );
+
+  const bundleGoldNav =
+    isBundleGoldNavState(milestones) &&
+    !!(sessionUser as SessionUserShape)?.email?.trim();
+
   const handleFirstMilestoneClaim = () => {
     console.log("First milestone claimed");
   };
@@ -87,10 +88,16 @@ export function ProgressRewardsClient() {
   }
 
   return (
-    <div className="hidden min-w-0 max-w-md flex-1 items-center justify-center lg:flex">
+    <div
+      className={
+        bundleGoldNav
+          ? "hidden"
+          : "hidden min-w-0 max-w-md flex-1 items-center justify-center lg:flex"
+      }
+    >
       <ProgressRewardsExtended
         className="min-w-0 max-w-sm"
-        milestones={partnerSettings?.milestones || []}
+        milestones={milestones}
         rewardAmount={rewardAmount || 0}
         discountAmount={Number(partnerSettings?.rewardGoal?.discount) || 0}
         goalAmount={Number(partnerSettings?.rewardGoal?.thresholdAmount) || 0}
