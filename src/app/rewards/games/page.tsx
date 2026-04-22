@@ -41,9 +41,6 @@ export default function GamesPage() {
 
   const handleFirstMilestoneClaim = () => {
     //Add tracking here and internal logic.
-    handleGenerateDiscountCode();
-     //Add generation of discount code here.
-     setDiscountCode(generateDiscountCode());
     console.log("First milestone claimed");
   }
 
@@ -80,7 +77,7 @@ export default function GamesPage() {
         goalAmount = {Number(partnerSettings?.rewardGoal?.thresholdAmount) || 0}
         code={discountCode || ""}
         onCopyWithRedirect={() => {
-          //Add tracking here and internal logic.
+          //Add tracking here and internal logic.s
           console.log("Copy with redirect");
         }}
         onClaimLater={() => {
@@ -165,6 +162,9 @@ export default function GamesPage() {
       loading={loading}
       error={error}
       refetchOffers={refetch}
+      discountCode={discountCode}
+      onGenerateDiscountCode={handleGenerateDiscountCode}
+      redirectUrl="https://example.com/"
     />
  
     </div>
