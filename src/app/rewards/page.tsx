@@ -19,7 +19,7 @@ export default function RewardsPage() {
 
   return (
     <div>
-        <SectionHero 
+        <SectionHero        
         partnerCode={partnerCode}
         partnerName={partnerName}
         bundleAmount={Number(partnerSettings?.rewardGoal?.thresholdAmount) || 0}
