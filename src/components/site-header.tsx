@@ -3,6 +3,7 @@ import { AccountNav } from "@/components/account-nav";
 import { getCartLineCount } from "@/app/actions/cart";
 import { ProgressAmountClient } from "@/components/progress-amount-client";
 import { ProgressRewardsClient } from "@/components/progress-rewards-client";
+import { LogoutButton } from "@/components/logout-button";
 
 export async function SiteHeader() {
   const count = await getCartLineCount();
@@ -15,6 +16,7 @@ export async function SiteHeader() {
           className="text-lg font-semibold tracking-tight text-zinc-900"
         >
           Storefront
+          <LogoutButton />
         </Link>
         <ProgressRewardsClient />
         <nav className="flex flex-wrap items-center gap-3 text-sm font-medium text-zinc-700 sm:gap-4">
