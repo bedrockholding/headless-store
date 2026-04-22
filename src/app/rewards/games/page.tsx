@@ -21,7 +21,7 @@ export default function GamesPage() {
   const [discountCode, setDiscountCode] = useState("");
   const partnerCode = "storefront";
   const partnerName = "Storefront";
-  const { games, partnerSettings, activities, loading, error, sessionUser, rewardAmount } =
+  const { games, partnerSettings, activities, loading, error, sessionUser, rewardAmount, refetch } =
     useGameApi(partnerCode, email) as ExtendedGameApi;
 
   /** Fired when the user taps the featured game’s primary CTA in the hero (getjacked-components). */
@@ -125,6 +125,7 @@ export default function GamesPage() {
       }}
       activities={activities}
       maxIncompleteOffers={partnerSettings?.maxIncompleteOffers || 5}
+      refetchOffers={refetch}
     />
     <SectionGames
       maxIncompleteOffers={partnerSettings?.maxIncompleteOffers || 5}
@@ -163,6 +164,7 @@ export default function GamesPage() {
       activities={activities}
       loading={loading}
       error={error}
+      refetchOffers={refetch}
     />
  
     </div>
