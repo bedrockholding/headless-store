@@ -4,7 +4,12 @@ import { useEffect, useMemo, useState } from "react";
 import { usePathname } from "next/navigation";
 import type { ComponentType } from "react";
 import type { iPartnerSettings } from "getjacked-components";
-import { ProgressAmount, ProgressRewards, useGameApi } from "getjacked-components";
+import {
+  ProgressAmount,
+  ProgressRewards,
+  useGameApi,
+  useLogout,
+} from "getjacked-components";
 import { generateDiscountCode } from "@/lib/generate-discount-code";
 import {
   isBundleGoldNavState,
@@ -32,11 +37,13 @@ function NavProgressBody({
   partnerSettings,
   sessionUser,
   partnerName = "Storefront",
+  onGameLogout,
 }: {
   rewardAmount: number;
   partnerSettings: iPartnerSettings | undefined;
   sessionUser: SessionLike;
   partnerName?: string;
+  onGameLogout: () => void;
 }) {
   const [discountCode, setDiscountCode] = useState("");
 
@@ -107,19 +114,28 @@ function NavProgressBody({
 
   return (
     <div className="flex w-full min-w-0 flex-col items-stretch gap-2 lg:flex-row lg:items-center lg:justify-end">
-      <div
-        className={
-          bundleGoldNav
-            ? "flex justify-end lg:hidden"
-            : "flex justify-end"
-        }
-      >
-        <ProgressAmount
-          amount={rewardAmount ? rewardAmount.toString() : "0"}
-          thresholdAmount={Number(
-            partnerSettings?.rewardGoal?.thresholdAmount || 0
-          )}
-        />
+      <div className="flex min-w-0 flex-nowrap items-center justify-end gap-2">
+        <div
+          className={
+            bundleGoldNav
+              ? "flex min-w-0 justify-end lg:hidden"
+              : "flex min-w-0 justify-end"
+          }
+        >
+          <ProgressAmount
+            amount={rewardAmount ? rewardAmount.toString() : "0"}
+            thresholdAmount={Number(
+              partnerSettings?.rewardGoal?.thresholdAmount || 0
+            )}
+          />
+        </div>
+        <button
+          type="button"
+          onClick={onGameLogout}
+          className="shrink-0 rounded-md bg-black px-2.5 py-1.5 text-sm font-bold text-white hover:opacity-90"
+        >
+          Logout
+        </button>
       </div>
       {bundleGoldNav ? (
         <div className="hidden w-full min-w-0 justify-end lg:flex">{goldRewards}</div>
@@ -128,17 +144,22 @@ function NavProgressBody({
   );
 }
 
+type GameApiWithOptionalLogout = ReturnType<typeof useGameApi> & {
+  userLogout?: () => void;
+};
+
 function RewardsGamesProgressAmount() {
-  const { rewardAmount, sessionUser, partnerSettings } = useGameApi(
-    "storefront",
-    ""
-  );
+  const api = useGameApi("storefront", "") as GameApiWithOptionalLogout;
+  const { logout } = useLogout();
+  const { rewardAmount, sessionUser, partnerSettings } = api;
+  const onGameLogout = api.userLogout ?? logout;
 
   return (
     <NavProgressBody
       rewardAmount={rewardAmount || 0}
       partnerSettings={partnerSettings}
       sessionUser={sessionUser}
+      onGameLogout={onGameLogout}
     />
   );
 }
