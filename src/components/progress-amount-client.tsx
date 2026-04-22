@@ -1,8 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { usePathname } from "next/navigation";
-import { ProgressAmount, useGameApi } from "getjacked-components";
+import type { ComponentType } from "react";
+import type { iPartnerSettings } from "getjacked-components";
+import { ProgressAmount, ProgressRewards, useGameApi } from "getjacked-components";
+import { generateDiscountCode } from "@/lib/generate-discount-code";
+import {
+  isBundleGoldNavState,
+  milestonesWithDerivedEarnedStatus,
+} from "@/lib/reward-milestones";
 
 const REWARDS_GAMES_PATH = "/rewards/games";
 
@@ -14,12 +21,70 @@ function isRewardsGamesPath(pathname: string | null) {
   );
 }
 
-/** `useGameApi` + `ProgressAmount` only run when this subtree is mounted (rewards/games). */
-function RewardsGamesProgressAmount() {
-  const partnerCode = "storefront";
-  const { rewardAmount, sessionUser, partnerSettings } = useGameApi(partnerCode, "");
+const ProgressRewardsExtended = ProgressRewards as unknown as ComponentType<
+  Record<string, unknown>
+>;
 
-  if (!sessionUser?.email) {
+type SessionLike = { email?: string | null } | null | undefined;
+
+function NavProgressBody({
+  rewardAmount,
+  partnerSettings,
+  sessionUser,
+  partnerName = "Storefront",
+}: {
+  rewardAmount: number;
+  partnerSettings: iPartnerSettings | undefined;
+  sessionUser: SessionLike;
+  partnerName?: string;
+}) {
+  const [discountCode, setDiscountCode] = useState("");
+
+  const milestones = useMemo(
+    () =>
+      milestonesWithDerivedEarnedStatus(
+        partnerSettings?.milestones ?? undefined,
+        rewardAmount || 0
+      ),
+    [partnerSettings?.milestones, rewardAmount]
+  );
+
+  const bundleGoldNav =
+    !!sessionUser?.email?.trim() && isBundleGoldNavState(milestones);
+
+  const goalAmount = Number(partnerSettings?.rewardGoal?.thresholdAmount) || 0;
+  const discountNum = Number(partnerSettings?.rewardGoal?.discount) || 0;
+
+  const goldRewards = (
+    <ProgressRewardsExtended
+      className="min-w-0 w-full max-w-[280px] shrink-0"
+      milestones={milestones}
+      rewardAmount={rewardAmount || 0}
+      discountAmount={discountNum}
+      goalAmount={goalAmount}
+      code={discountCode || ""}
+      onCopyWithRedirect={() => {
+        console.log("Copy with redirect");
+      }}
+      onClaimLater={() => {
+        console.log("Claim later");
+      }}
+      redirectUrl="https://example.com/"
+      onClaimFirstMilestone={() => {
+        console.log("First milestone claimed");
+      }}
+      onClaimLastMilestone={() => {
+        console.log("Last milestone claimed");
+      }}
+      partnerName={partnerName}
+      onGenerateDiscountCode={() => {
+        setDiscountCode(generateDiscountCode());
+        console.log("Generate discount code (header nav)");
+      }}
+    />
+  );
+
+  if (!sessionUser?.email?.trim()) {
     return (
       <>
         <a
@@ -31,7 +96,9 @@ function RewardsGamesProgressAmount() {
         <div className="inline-flex sm:hidden">
           <ProgressAmount
             amount={rewardAmount ? rewardAmount.toString() : "0"}
-            thresholdAmount={Number(partnerSettings?.rewardGoal?.thresholdAmount || 0)}
+            thresholdAmount={Number(
+              partnerSettings?.rewardGoal?.thresholdAmount || 0
+            )}
           />
         </div>
       </>
@@ -39,7 +106,40 @@ function RewardsGamesProgressAmount() {
   }
 
   return (
-    <ProgressAmount amount={rewardAmount ? rewardAmount.toString() : "0"} thresholdAmount={Number(partnerSettings?.rewardGoal?.thresholdAmount || 0)} />
+    <div className="flex w-full min-w-0 flex-col items-stretch gap-2 lg:flex-row lg:items-center lg:justify-end">
+      <div
+        className={
+          bundleGoldNav
+            ? "flex justify-end lg:hidden"
+            : "flex justify-end"
+        }
+      >
+        <ProgressAmount
+          amount={rewardAmount ? rewardAmount.toString() : "0"}
+          thresholdAmount={Number(
+            partnerSettings?.rewardGoal?.thresholdAmount || 0
+          )}
+        />
+      </div>
+      {bundleGoldNav ? (
+        <div className="hidden w-full min-w-0 justify-end lg:flex">{goldRewards}</div>
+      ) : null}
+    </div>
+  );
+}
+
+function RewardsGamesProgressAmount() {
+  const { rewardAmount, sessionUser, partnerSettings } = useGameApi(
+    "storefront",
+    ""
+  );
+
+  return (
+    <NavProgressBody
+      rewardAmount={rewardAmount || 0}
+      partnerSettings={partnerSettings}
+      sessionUser={sessionUser}
+    />
   );
 }
 
@@ -54,9 +154,6 @@ export function ProgressAmountClient() {
     });
   }, []);
 
-  // Avoid hydration mismatch: `useGameApi` session (and sometimes pathname timing)
-  // can differ between SSR and the first client render, which changes node count
-  // before the cart link and breaks hydration.
   if (!mounted) {
     return null;
   }
@@ -65,7 +162,7 @@ export function ProgressAmountClient() {
     return (
       <a
         href="/rewards/games"
-        className="items-center bg-black py-2.5 px-3 text-[14px] font-bold text-white hover:opacity-90 hidden sm:inline-flex"
+        className="hidden items-center bg-black py-2.5 px-3 text-[14px] font-bold text-white hover:opacity-90 sm:inline-flex"
       >
         Start Earning Now
       </a>

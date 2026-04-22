@@ -28,7 +28,12 @@ export async function SiteHeader() {
           <Link href="/search" className="hover:text-zinc-900">
             Search
           </Link> */}
-          <ProgressAmountClient /> 
+          <div
+            className="flex min-w-0 max-w-[min(20rem,calc(100vw-14rem))] shrink-0 flex-col items-end justify-center self-center lg:max-w-[18rem]"
+            data-site-header-nav-progress
+          >
+            <ProgressAmountClient />
+          </div>
           <Link
             href="/cart"
             className="relative inline-flex items-center gap-1 rounded-lg px-2 py-1 hover:bg-zinc-100 hover:text-zinc-900"

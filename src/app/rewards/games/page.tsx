@@ -73,8 +73,8 @@ export default function GamesPage() {
         className="min-w-0 max-w-sm"
         milestones={partnerSettings?.milestones || []}
         rewardAmount={rewardAmount || 0}
-        discountAmount = {Number(partnerSettings?.rewardGoal?.discount) || 0}
-        goalAmount = {Number(partnerSettings?.rewardGoal?.thresholdAmount) || 0}
+        discountAmount={Number(partnerSettings?.rewardGoal?.discount) || 0}
+        goalAmount={Number(partnerSettings?.rewardGoal?.thresholdAmount) || 0}
         code={discountCode || ""}
         onCopyWithRedirect={() => {
           //Add tracking here and internal logic.s
