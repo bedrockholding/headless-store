@@ -131,8 +131,11 @@ function NavProgressBody({
         </div>
         <button
           type="button"
-          onClick={onGameLogout}
-          className="shrink-0 rounded-md bg-black px-2.5 py-1.5 text-sm font-bold text-white hover:opacity-90"
+          onClick={() => {
+            onGameLogout();
+            window.location.href = "/rewards";
+          }}
+          className="shrink-0 whitespace-nowrap hover:text-zinc-900 lg:pl-2"
         >
           Logout
         </button>
