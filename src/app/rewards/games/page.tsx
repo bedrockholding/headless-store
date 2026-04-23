@@ -166,6 +166,7 @@ export default function GamesPage() {
       discountCode={discountCode}
       onGenerateDiscountCode={handleGenerateDiscountCode}
       redirectUrl="https://example.com/"
+      isLoggedIn={!!sessionUser?.email}
     />
  
     </div>
