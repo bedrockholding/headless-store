@@ -98,7 +98,7 @@ function NavProgressBody({
           href="/rewards"
           className="hidden items-center bg-black py-2.5 p-3 text-[14px] font-bold text-white hover:opacity-90 sm:inline-flex"
         >
-          Start Earning Now
+          Unlock $160 now
         </a>
         <div className="inline-flex sm:hidden">
           <ProgressAmount
@@ -188,7 +188,7 @@ export function ProgressAmountClient() {
         href="/rewards/games"
         className="hidden items-center bg-black py-2.5 px-3 text-[14px] font-bold text-white hover:opacity-90 sm:inline-flex"
       >
-        Start Earning Now
+        Unlock $160 now
       </a>
     );
   }

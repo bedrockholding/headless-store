@@ -80,6 +80,10 @@ export default function RewardsPage() {
         <SectionSteps 
           partnerCode={partnerCode}
           partnerName={partnerName} 
+          bundleAmount={Number(partnerSettings?.rewardGoal?.thresholdAmount) || 0}
+          discountAmount={Number(partnerSettings?.rewardGoal?.discount) || 0}
+          installAmount={5}
+          levelUpAmount={145}
           images={["https://test.withrcart.com/goli/step-1-bg.png", "https://test.withrcart.com/goli/step-2-bg.png", "https://test.withrcart.com/goli/step-3-bg.png"]} 
           to="/rewards/games"
           onCTAClick={() => {
